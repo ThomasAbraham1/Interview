@@ -1,7 +1,9 @@
 //jshint esversion:6
 require('dotenv').config();
 const express = require("express");
+const Report = require( 'fluentReports' ).Report;
 const bodyParser = require("body-parser");
+const { ObjectId } = require('mongodb');
 const ejs = require("ejs");
 const _ = require("lodash");
 const app = express();
@@ -39,11 +41,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect("mongodb+srv://chatgptthomas:FmU5yTOcDQt4cGnB@cluster0.vhhesfh.mongodb.net/blog", { useNewUrlParser: true });
+mongoose.connect("mongodb+srv://chatgptthomas:FmU5yTOcDQt4cGnB@cluster0.vhhesfh.mongodb.net/staffs", { useNewUrlParser: true });
 
 const postSchema = { 
-  postTitle: String,
-  postContent: String,
+  staffName: String,
+  age: String,
+  address: String,
+  role: String,
+  qualification: String,
+  contact: String,
 }
 
 
@@ -112,9 +118,13 @@ const post = new Post({
 
 
 app.get('/', function (req, res) {
-  if (req.isAuthenticated()) {
-    res.render('homepage');
-  }
+
+  Post.find({}).then(function (posts) {
+        console.log(posts);
+        res.render('homepage', {posts: posts}); 
+      });
+      
+
   
   // console.log(req.isAuthenticated());
   // // Selecting all the records from the database
@@ -140,6 +150,41 @@ app.get('/', function (req, res) {
   // }
 });
 
+
+app.post('/post', (req,res)=>{
+  console.log(req.body);
+  var staffName = req.body.staffName;
+  var age = req.body.age;
+  var role = req.body.role;
+  var address = req.body.address;
+  var qualification = req.body.qualification;
+  var contact = req.body.contact;
+  const post = new Post({
+    staffName: staffName,
+    age: age,
+    role: role,
+    qualification: qualification,
+    contact: contact,
+    address: address,
+});
+post.save().then( (posts)=>{
+  // console.log(posts);
+  res.redirect('/');
+} );
+  // Post.find({}).then( (posts)=>{
+  //   posts.push({
+  //     staffName: staffName,
+  //     age: age,
+  //     role: role,
+  //     qualification: qualification,
+  //     contact: contact,
+  //     address: address,
+  //   })
+  // });
+
+});
+
+
 app.post('/', function (req, res) {
   var postTitle = req.body.postTitle;
   var postContent = req.body.postContent;
@@ -162,6 +207,7 @@ app.post('/', function (req, res) {
 
 app.post('/userUpdation/:operation', (req, res) => {
   console.log(req.body);
+  var postId = req.body.postId;
   var operation = req.params.operation;
   if (operation == 'updateUserName') {
     User.findOneAndUpdate({ _id: req.user._id }, { username: req.body.userName }, { new: true }).then((resultRecord) => {
@@ -170,8 +216,8 @@ app.post('/userUpdation/:operation', (req, res) => {
       res.redirect('/');
     });
   } else if (operation == 'deletePost') {
-    User.findOneAndUpdate({ _id: req.user._id }, { $pull: { posts: { _id: req.body.postId } } }).then(() => {
-      res.redirect("/");
+    Post.findOneAndRemove({ _id: postId }).then( (user)=>{
+      res.redirect('/');
     });
 
   }
@@ -256,22 +302,27 @@ app.get('/auth/facebook',
 // Editing the post
 
 app.get('/edit/:post', (req, res) => {
-  var postId = req.params.post;
-  // console.log(postId);
-  User.findOne({ _id: req.user._id}, { posts: { $elemMatch: { _id: postId } } }).then((foundPost) => {
-    console.log(foundPost);
-    var userIdAndPost = foundPost;
-    res.render('edit', {userIdAndPost: userIdAndPost});
+  var postId =req.params.post;
+  console.log(postId); 
+  
+  Post.findOne({_id: postId}).then((foundPost) => {
+    var post = foundPost;
+    console.log(post);
+    res.render('edit', {post: post});
   });
 });
 
 app.post('/edit', (req,res)=>{
   var postId = req.body.postId;
-  var postTitle = req.body.postTitle;
-  var postContent = req.body.postContent;
+  var staffName = req.body.staffName;
+  var age = req.body.age;
+  var role = req.body.role;
+  var contact = req.body.contact;
+  var address = req.body.address;
+  var qualification = req.body.qualification;
 
-  User.findOneAndUpdate({_id: req.user._id, "posts._id": postId}, {$set: {"posts.$.postTitle" : postTitle, "posts.$.postContent" : postContent }}, {new: true}).then( (postEdit) =>{
-    // console.log(postEdit); 
+  User.findOneAndUpdate({_id: postId}, {$set: {staffName: staffName, age: age, role: role, contact: contact, address: address, qualification: qualification }}, {new: true}).then( (postEdit) =>{
+    console.log(postEdit); 
   });
   res.redirect('/');
 

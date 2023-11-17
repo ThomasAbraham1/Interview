@@ -1,4 +1,4 @@
-<%- include("partials/header"); -%>
+
 <style>
   .btn-secondary{
     background-color: black;
@@ -15,17 +15,38 @@
       <article class="widget">
         <h1>Edit your post</h1>
         <form id="postForm" action="/edit" method="post">
-            <input type="hidden" value="<%= userIdAndPost.posts[0]._id%>" name="postId">
+            <input type="hidden" value="<%= post._id%>" name="postId">
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Title</label>
             <input type="text" name="postTitle" class="form-control" id="exampleFormControlInput1"
-              placeholder="eg: How is AI stealing jobs" value="<%= userIdAndPost.posts[0].postTitle %>" required>
+              placeholder="eg: How is AI stealing jobs" value="<%= post.staffName %>" required>
           </div>
           <div class="mb-3">
-            <label for="textarea1" class="form-label">Content</label>
-            <textarea class="form-control" name="postContent" id="textarea1" rows="3" minlength="2"
-              placeholder="eg: I was walking one day and I saw this..." required><%= userIdAndPost.posts[0].postContent%></textarea>
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input type="text" name="postTitle" class="form-control" id="exampleFormControlInput1"
+              placeholder="eg: How is AI stealing jobs" value="<%= post.age %>" required>
           </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input type="text" name="postTitle" class="form-control" id="exampleFormControlInput1"
+              placeholder="eg: How is AI stealing jobs" value="<%= post.role %>" required>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input type="text" name="postTitle" class="form-control" id="exampleFormControlInput1"
+              placeholder="eg: How is AI stealing jobs" value="<%= post.qualification %>" required>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input type="text" name="postTitle" class="form-control" id="exampleFormControlInput1"
+              placeholder="eg: How is AI stealing jobs" value="<%= post.contact %>" required>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input type="text" name="postTitle" class="form-control" id="exampleFormControlInput1"
+              placeholder="eg: How is AI stealing jobs" value="<%= post.address %>" required>
+          </div>
+
           <div class="col-12">
             <button id="postFormBtn" class="btn btn-secondary" type="submit">Save changes</button>
           </div>
@@ -58,5 +79,3 @@
     });
 
   </script>
-
-  <%- include("partials/footer"); -%>
