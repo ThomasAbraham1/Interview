@@ -40,7 +40,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect("mongodb+srv://chatgptthomas:FmU5yTOcDQt4cGnB@cluster0.vhhesfh.mongodb.net/staffs", { useNewUrlParser: true });
+mongoose.connect("mongodb://127.0.0.1:27017/staffs",  { useNewUrlParser: true });
 
 const postSchema = { 
   staffName: String,
@@ -302,16 +302,17 @@ app.get('/auth/facebook',
 
 app.get('/edit/:post', (req, res) => {
   var postId =req.params.post;
-  console.log(postId); 
+  // console.log(postId); 
   
   Post.findOne({_id: postId}).then((foundPost) => {
     var post = foundPost;
-    console.log(post);
+    // console.log(post);
     res.render('edit', {post: post});
   });
 });
 
 app.post('/edit', (req,res)=>{
+  console.log(req.body);
   var postId = req.body.postId;
   var staffName = req.body.staffName;
   var age = req.body.age;
@@ -320,7 +321,7 @@ app.post('/edit', (req,res)=>{
   var address = req.body.address;
   var qualification = req.body.qualification;
 
-  User.findOneAndUpdate({_id: postId}, {$set: {staffName: staffName, age: age, role: role, contact: contact, address: address, qualification: qualification }}, {new: true}).then( (postEdit) =>{
+  Post.findOneAndUpdate({_id: postId}, {staffName: staffName, age: age, role: role, contact: contact, address: address, qualification: qualification }, {new: true}).then( (postEdit) =>{
     console.log(postEdit); 
   });
   res.redirect('/');
