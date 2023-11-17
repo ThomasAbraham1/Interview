@@ -1,7 +1,6 @@
 //jshint esversion:6
 require('dotenv').config();
 const express = require("express");
-const Report = require( 'fluentReports' ).Report;
 const bodyParser = require("body-parser");
 const { ObjectId } = require('mongodb');
 const ejs = require("ejs");
