@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { ObjectId } = require('mongodb');
 const ejs = require("ejs");
-const _ = require("lodash");
+const _ = require("lodash"); 
 const app = express();
 const port = process.env.PORT || 3000;
 const path = require('path');
@@ -40,7 +40,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect("mongodb+srv://chatgptthomas:FmU5yTOcDQt4cGnB@cluster0.vhhesfh.mongodb.net/staffs", { useNewUrlParser: true });
+mongoose.connect("mongodb://127.0.0.1:27017/staffs", { useNewUrlParser: true });
 
 
 const postSchema = { 
@@ -216,6 +216,7 @@ app.post('/userUpdation/:operation', (req, res) => {
       res.redirect('/');
     });
   } else if (operation == 'deletePost') {
+    console.log('hello');
     Post.findOneAndRemove({ _id: postId }).then( (user)=>{
       res.redirect('/');
     });

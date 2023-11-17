@@ -117,11 +117,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            
+
 
                             </div>
                         </div>
-                
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="datatable" class="table table-striped" data-toggle="data-table">
@@ -165,14 +165,14 @@
                                                 </td>
                                                 <td>
                                                     <div class="delete-btn">
+                                                        <form action=""></form>
                                                         <form action="/userUpdation/deletePost" method="post">
-                                                            <a href="" onclick="this.parentNode.submit();"><i
-                                                                    class="fa-solid fa-trash"
-                                                                    src="../public/images/delete-icon.svg"
-                                                                    style="color: #230303; float: right;"></i></a>
-                                                            <input type="text" value='<%=post._id %>' name="postId"
-                                                                hidden>
+                                                            <a href="#" onclick="this.parentNode.submit();">
+                                                                <i class="fa-solid fa-trash" src="/assets/images/delete-icon.svg" style="color: #230303; float: right;"></i>
+                                                            </a>
+                                                            <input type="text" value='<%=post._id %>' name="postId" hidden>
                                                         </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <% }); %>
@@ -184,18 +184,18 @@
                     </div>
                 </div>
             </div>
-        </nav>
-    </div>
-    <script>
-        function exportHTMLtoPDF() {
-           let htmlElement = document.getElementById('content');
-  
-           html2pdf().from(htmlElement).save('exported_file.pdf');
-        }
-  
-        document.getElementById('exportButton').addEventListener('click', exportHTMLtoPDF);
-     </script>
+            </nav>
+        </div>
+        <script>
+            function exportHTMLtoPDF() {
+                let htmlElement = document.getElementById('content');
+
+                html2pdf().from(htmlElement).save('exported_file.pdf');
+            }
+
+            document.getElementById('exportButton').addEventListener('click', exportHTMLtoPDF);
+        </script>
 
 
 
-    <%- include("partials/footer"); -%>
+        <%- include("partials/footer"); -%>
