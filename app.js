@@ -40,7 +40,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/staffs", { useNewUrlParser: true });
+mongoose.connect("mongodb+srv://chatgptthomas:FmU5yTOcDQt4cGnB@cluster0.vhhesfh.mongodb.net/staffs", { useNewUrlParser: true });
 
 
 const postSchema = { 
